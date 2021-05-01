@@ -50,10 +50,9 @@ nav:nth-child(1) {
 
 .slimeForm {
     border: 2px solid #02F236;
-    height: 35px;
+    height: 5%;
     width: 1000px;
-    margin-top:0px;
-    margin-bottom: 0px;
+    margin: 0 auto;
     padding-top:10px;
     background-color: #39393A;
     border-bottom-right-radius: 4px;
@@ -73,6 +72,10 @@ nav:nth-child(1) {
     float:left;
 }
 
+#makeSlime{
+    margin-top: 20px;
+}
+
 .makeSlimeSubmit {
     transition: background-color 0.4s ease;
     display: inline;
@@ -81,6 +84,7 @@ nav:nth-child(1) {
     border-radius: 2px;
     color: #E6E6E6;
     text-decoration: none;
+    margin-left: 10px;
 }
 
 .makeSlimeSubmit:link, .makeSlimeSubmit:visited, .makeSlimeSubmit:hover, .makeSlimeSubmit:active {
@@ -234,32 +238,61 @@ nav:nth-child(1) {
     transform: rotate(330deg);
 }
 
-#playerControls {
-    width: 40%;
-    min-width: 400px;
-    border: 2px solid #39393A;
-    border-radius: 4px;
+#playerControls div{
+    width: 30%;
     margin: 0 auto;
-    margin-top: 100px;
-    height: 30%;
+    margin-top: 20px;
+    margin-bottom: 60px;
+    height: 10%;
 }
 
-#playerControls input{
+#playerControls form{
+    margin-top: 10px;
+}
+
+#playerControls input[type=submit]{
     display: inline;
     width: 100%;
-    height: 100%;
+    height: 50%;
     color: black;
     font-size: 100%;
     box-shadow: 0 9px #999;
 }
+#playerControls input[type=number]{
+    display: inline;
+    width: 100%;
+    color: black;
+    text-align: center;
+}
 
-#playerControls input:hover {
+#playerControls input[type=submit]:hover {
     background-color: #02CA2D;
 }
 
-#playerControls input:active {
+#playerControls input[type=submit]:active {
     box-shadow: 0 5px #666;
     background-color: #35FD60;
+}
+
+
+#enemyStats div{
+    border: 2px solid #39393A;
+    background-color: #f5f5f5;
+    text-align: center;
+    width: 20%;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#playerStats div{
+    border: 2px solid #39393A;
+    background-color: #f5f5f5;
+    text-align: center;
+    width: 20%;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 #slimes {
@@ -268,7 +301,7 @@ nav:nth-child(1) {
     border: 2px solid #39393A;
     border-radius: 4px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 
 .slime {
@@ -336,6 +369,15 @@ h3.slimeLevel {
 }
 
 h3.slimeHealth {
+    float:left;
+    text-align: left;
+    width: 100px;
+    font-weight: bold;
+    padding-right: 10px;
+    font-size: 1.5em;
+}
+
+h3.slimeAttack {
     float:left;
     text-align: left;
     width: 100px;

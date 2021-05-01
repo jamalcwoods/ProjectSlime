@@ -22,9 +22,17 @@ const makeSlime = (req, res) => {
       return res.status(400).json({ error: 'Not enough residue to create this slime' });
     }
 
+    if(req.body.residue < 2){
+      return res.status(400).json({ error: 'Must give at least 2 residue to create a slime' });
+    }
+
+    let rngNum = Math.ceil(Math.random() * req.body.residue/2)
+
     const slimeData = {
       name: req.body.name,
-      health: req.body.residue,
+      health: req.body.residue - rngNum,
+      max_health: req.body.residue - rngNum,
+      attack: rngNum,
       level: 1,
       perk: 0,
       owner: req.session.account._id,
@@ -127,7 +135,6 @@ const getSlimes = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured.' });
     }
-    console.log(docs)
     return res.json({ slimes: docs });
   });
 };

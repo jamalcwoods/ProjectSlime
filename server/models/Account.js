@@ -36,6 +36,10 @@ const AccountSchema = new mongoose.Schema({
   gold: {
     type: Number,
     default: 0,
+  },
+  currentEnemy: {
+    type: Object,
+    required: false
   }
 });
 

@@ -10,8 +10,10 @@ const router = (app) => {
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/maker', mid.requiresLogin, controllers.Slime.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Slime.make);
+  app.get('/getEnemy', mid.requiresLogin, controllers.Account.getEnemy);
   app.get('/getPlayer', mid.requiresLogin, controllers.Account.getPlayer);
   app.post('/addResidue', mid.requiresLogin, controllers.Account.addResidue);
+  app.post('/summonEnemy', mid.requiresLogin, controllers.Account.summonEnemy);
   app.post('/update', mid.requiresLogin, controllers.Slime.update);
   app.post('/update2', mid.requiresLogin, controllers.Slime.update2);
   app.get('/', mid.requiesSecure, mid.requiresLogout, controllers.Account.loginPage);

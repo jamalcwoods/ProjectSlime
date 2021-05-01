@@ -18,51 +18,45 @@ var handleSlime = function handleSlime(e) {
   return false;
 };
 
-// var handleUpdate = function handleUpdate(e) {
-//   e.preventDefault();
-//   $("#slimeMessage").animate({
-//     width: 'hide'
-//   }, 350);
-
-//   if ($("#updateName").val() == '') {
-//     handleError("Name is required!");
-//     return false;
-//   }
-
-//   sendAjax('POST', $("#updateForm").attr("action"), $("#updateForm").serialize(), function () {
-//     loadSlimesFromServer();
-//   });
-//   return false;
-// };
-
-// var handleUpdate2 = function handleUpdate2(e) {
-//   e.preventDefault();
-//   $("#slimeMessage").animate({
-//     width: 'hide'
-//   }, 350);
-
-//   if ($("#updateName1").val() == '' || $("#updateName2").val() == '') {
-//     handleError("Both names are required!");
-//     return false;
-//   }
-
-//   sendAjax('POST', $("#updateForm2").attr("action"), $("#updateForm2").serialize(), function () {
-//     loadSlimesFromServer();
-//   });
-//   return false;
-// };
-
 var addPlayerSlimeResidue = function addPlayerSlimeResidue(e){
   e.preventDefault();
-  sendAjax('POST', $("#playerControlsForm").attr("action"), $("#playerControlsForm").serialize(), function () {
+  sendAjax('POST', $("#addResidueForm").attr("action"), $("#addResidueForm").serialize(), function () {
     loadPlayerStats();
   });
   return false;
 }
 
+var summonEnemy = function summonEnemy(e){
+  e.preventDefault();
+  sendAjax('POST', $("#summonEnemyForm").attr("action"), $("#summonEnemyForm").serialize(), function () {
+    loadEnemyStats();
+  });
+  return false;
+}
+
+var EnemyStats = function EnemyStats(props){
+  let enemy = props.enemy
+  if (enemy == null) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "enemyStats"
+    }, /*#__PURE__*/React.createElement("h3", {
+      className: "emptyEnemy"
+    }, "No Enemy Challenged"));
+  }
+
+  return /*#__PURE__*/React.createElement("div",{
+    id: "enemyStats"
+  }, /*#__PURE__*/React.createElement("h3",{
+    id: "enemyName"  
+  }, "Name: ", enemy.name, " "), /*#__PURE__*/React.createElement("h3",{
+    id: "enemyAttack"  
+  }, "Enemy Attack: ", enemy.attack, " "), /*#__PURE__*/React.createElement("h3",{
+    id: "enemyHealth"  
+  }, "Enemy Health: ", enemy.health, "/", enemy.max_health))
+}
+
 var PlayerStats = function PlayerStats(props){
   let player = props.player
-
   return /*#__PURE__*/React.createElement("div",{
     id: "playerStats"
   }, /*#__PURE__*/React.createElement("h3",{
@@ -89,7 +83,7 @@ var SlimeForm = function SlimeForm(props) {
     placeholder: "New Slime Name Here"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "age"
-  }, "Age: "), /*#__PURE__*/React.createElement("input", {
+  }, "Residue Input: "), /*#__PURE__*/React.createElement("input", {
     id: "slimeResidue",
     type: "number",
     name: "residue",
@@ -165,13 +159,35 @@ var SlimeForm = function SlimeForm(props) {
 // };
 
 var PlayerControls = function PlayerControls(props) {
-  return /*#__PURE__*/React.createElement("form", {
-    id: "playerControlsForm",
-    name: "playerControlsForm",
+  return/*#__PURE__*/React.createElement("div", {
+    className: "playerControls"
+  },/*#__PURE__*/React.createElement("form", {
+    id: "summonEnemyForm",
+    name: "summonEnemyForm",
+    onSubmit: summonEnemy,
+    action: "/summonEnemy",
+    method: "POST",
+    className: "summonEnemyForm"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    name: "wager",
+    type: "number",
+    value: 0,
+    placeholder: "Amount Gold To Wager"
+  }), /*#__PURE__*/React.createElement("input", {
+    onSubmit: addPlayerSlimeResidue,
+    type: "submit",
+    value: "Wager Gold To Summon an enemy!"
+  })),/*#__PURE__*/React.createElement("form", {
+    id: "addResidueForm",
+    name: "addResidueForm",
     onSubmit: addPlayerSlimeResidue,
     action: "/addResidue",
     method: "POST",
-    className: "playerControlsForm"
+    className: "addResidueForm"
   }, /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
@@ -180,7 +196,7 @@ var PlayerControls = function PlayerControls(props) {
     onSubmit: addPlayerSlimeResidue,
     type: "submit",
     value: "Click here to get more slime residue!"
-  }))
+  })))
 }
 
 var SlimeList = function SlimeList(props) {
@@ -206,7 +222,9 @@ var SlimeList = function SlimeList(props) {
       className: "slimeAge"
     }, " Level: ", slime.level, " "), /*#__PURE__*/React.createElement("h3", {
       className: "slimeHealth"
-    }, " Health: ", slime.health, " "));
+    }, " Health: ", slime.health, "/", slime.max_health), /*#__PURE__*/React.createElement("h3", {
+      className: "slimeAttack"
+    }, " Attack: ", slime.attack, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "slimeList"
@@ -229,7 +247,18 @@ var loadPlayerStats = function loadPlayerStats(){
   });
 }
 
+var loadEnemyStats = function loadEnemyStats(){
+  sendAjax('GET', '/getEnemy', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(EnemyStats, {
+      enemy: data.enemy
+    }), document.querySelector("#enemyStats"));
+  });
+}
+
 var setup = function setup(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(EnemyStats, {
+    enemy: {}
+  }), document.querySelector("#enemyStats"));
   ReactDOM.render( /*#__PURE__*/React.createElement(SlimeForm, {
     csrf: csrf
   }), document.querySelector("#makeSlime"));
@@ -255,6 +284,7 @@ var setup = function setup(csrf) {
   }), document.querySelector("#slimes"));
   loadSlimesFromServer();
   loadPlayerStats();
+  loadEnemyStats();
 };
 
 var getToken = function getToken() {
