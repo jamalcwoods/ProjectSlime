@@ -147,7 +147,7 @@ const loadSlimesFromServer=()=>{
 const loadPlayerStats=()=>{
     sendAjax('GET', '/getPlayer', null, function (data) {
         ReactDOM.render(
-            <PlayerStats player={data.player} />, document.querySelector("playerStats")
+            <PlayerStats player={data.player} />, document.querySelector("#playerStats")
         );
     });
 }
@@ -155,7 +155,7 @@ const loadPlayerStats=()=>{
 var loadEnemyStats = function loadEnemyStats(){
     sendAjax('GET', '/getEnemy', null, function (data) {
         ReactDOM.render(
-            <EnemyStats enemy={data.enemy} />, document.querySelector("enemyStats")
+            <EnemyStats enemy={data.enemy} />, document.querySelector("#enemyStats")
         );
     });
 }
