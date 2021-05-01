@@ -1,3 +1,4 @@
+const { request, response } = require('express');
 const models = require('../models')
 
 const Account = models.Account;
@@ -90,9 +91,32 @@ const getToken = (request, response) => {
   res.json(csrfJSON)
 }
 
+const addResidue = (request, response) => {
+  const req = request;
+  const res = response
+
+  Account.AccountModel.findByUsername(req.session.account.username,(err,acc) => {
+    const account = acc
+    account.slimeResidue++;
+    account.save();
+
+    return res.json({ player: account });
+  })
+}
+
+const getPlayer = (request, response) => {
+  const req = request;
+  const res = response
+
+  Account.AccountModel.findByUsername(req.session.account.username,(err,acc) => {
+    return res.json({ player: acc });
+  })
+}
+
 module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
-
+module.exports.addResidue = addResidue
 module.exports.getToken = getToken;
+module.exports.getPlayer = getPlayer

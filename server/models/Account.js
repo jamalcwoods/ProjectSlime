@@ -29,6 +29,14 @@ const AccountSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  slimeResidue: {
+    type: Number,
+    default: 0,
+  },
+  gold: {
+    type: Number,
+    default: 0,
+  }
 });
 
 AccountSchema.statics.toAPI = (doc) => ({

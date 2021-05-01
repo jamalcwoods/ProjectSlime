@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const _ = require('underscore');
 
-let DomoModel = {};
+let SlimeModel = {};
 
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
-const DomoSchema = new mongoose.Schema({
+const SlimeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -16,15 +16,21 @@ const DomoSchema = new mongoose.Schema({
     set: setName,
   },
 
-  age: {
-    type: Number,
-    min: 0,
-    required: true,
-  },
-
   level: {
     type: Number,
     min: 1,
+    required: true,
+  },
+
+  health: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+
+  perk: {
+    type: Number,
+    min: 0,
     required: true,
   },
 
@@ -40,30 +46,31 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+SlimeSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  age: doc.age,
   level: doc.level,
+  perk: doc.perk,
+  health: doc.health
 });
 
-DomoSchema.statics.findByOwner = (ownerId, callback) => {
+SlimeSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
 
-  return DomoModel.find(search).select('name age level').lean().exec(callback);
+  return SlimeModel.find(search).select('name level health').lean().exec(callback);
 };
 
-DomoSchema.statics.findByName = (ownerId, name, callback) => {
+SlimeSchema.statics.findByName = (ownerId, name, callback) => {
   const search = {
     owner: convertId(ownerId),
     name,
   };
 
-  return DomoModel.findOne(search, callback);
+  return SlimeModel.findOne(search, callback);
 };
 
-DomoModel = mongoose.model('Domo', DomoSchema);
+SlimeModel = mongoose.model('Slime', SlimeSchema);
 
-module.exports.DomoModel = DomoModel;
-module.exports.DomoSchema = DomoSchema;
+module.exports.SlimeModel = SlimeModel;
+module.exports.SlimeSchema = SlimeSchema;

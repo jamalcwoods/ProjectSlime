@@ -1,53 +1,51 @@
-const handleDomo=(e)=>{
+const handleSlime=(e)=>{
     e.preventDefault();
     
-    $("#domoMessage").animate({width:'hide'},350);
+    $("#slimeMessage").animate({width:'hide'},350);
     
-    if($("#domoName").val()==''||$("#domoAge").val()==''||$("#domoLevel").val()==''){
-        handleError("RAWR! All fields are required!");
+    if($("#slimeName").val()==''||$("#slimeLevel").val()==''){
+        handleError("All fields are required!");
         return false;
     }
     
-    sendAjax('POST', $("#domoForm").attr("action"),$("#domoForm").serialize(), function(){
-        loadDomosFromServer();
+    sendAjax('POST', $("#slimeForm").attr("action"),$("#slimeForm").serialize(), function(){
+        loadSlimesFromServer();
     });
     
     return false;
 };
-
+    
 const handleUpdate=(e)=>{
     e.preventDefault();
     
-    $("#domoMessage").animate({width:'hide'},350);
+    $("#slimeMessage").animate({width:'hide'},350);
     
     if($("#updateName").val()==''){
-        handleError("RAWR! Name is required!");
+        handleError("Name is required!");
         return false;
     }
     
     sendAjax('POST', $("#updateForm").attr("action"),$("#updateForm").serialize(), function(){
-        loadDomosFromServer();
+        loadSlimesFromServer();
     });
     
     return false;
 };
 
-const DomoForm=(props)=>{
+const SlimeForm=(props)=>{
     return (
-        <form id="domoForm" 
-            name="domoForm"
-            onSubmit={handleDomo}
+        <form id="slimeForm" 
+            name="slimeForm"
+            onSubmit={handleSlime}
             action="/maker"
             method="POST"
-            className="domoForm"
+            className="slimeForm"
             >
             
             <label htmlFor="name">Name: </label>
-            <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-            <label htmlFor="age">Age: </label>
-            <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
+            <input id="slimeName" type="text" name="name" placeholder="Slime Name"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
-            <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+            <input className="makeSlimeSubmit" type="submit" value="Make Slime" />
         </form>
     );
 };
@@ -63,62 +61,61 @@ const UpdateForm=(props)=>{
             >
             
             <label htmlFor="name">Name: </label>
-            <input id="updateName" type="text" name="name" placeholder="Domo Name"/>
+            <input id="updateName" type="text" name="name" placeholder="Slime Name"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
-            <input className="updateDomoSubmit" type="submit" value="Level Domo Up!" />
+            <input className="updateSlimeSubmit" type="submit" value="Level Slime Up!" />
         </form>
     );
 };
 
-const DomoList=function(props){
-    if(props.domos.length===0){
+const SlimeList=function(props){
+    if(props.slimes.length===0){
         return(
-            <div className="domoList">
-                <h3 className="emptyDomo">No Domos Yet</h3>
+            <div className="sli meList">
+                <h3 className="emptySlime">No Slimes Yet</h3>
             </div>
         );
     }
     
-    const domoNodes=props.domos.map(function(domo){
+    const slimeNodes=props.slimes.map(function(slime){
         return (
-        <div key={domo._id} className="domo">
-            <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-            <h3 className="domoName"> Name: {domo.name} </h3>
-            <h3 className="domoAge"> Age: {domo.age} </h3>
-            <h3 className="domoLevel"> Level: {domo.level} </h3>
+        <div key={slime._id} className="slime">
+            <img src="/assets/img/slimeface.jpeg" alt="slime face" className="slimeFace" />
+            <h3 className="slimeName"> Name: {slime.name} </h3>
+            <h3 className="slimeLevel"> Level: {slime.level} </h3>
         </div>
         );
     });
     
     return(
-        <div className="domoList">
-        {domoNodes}
+        <div className="slimeList">
+        {slimeNodes}
         </div>
     );
 };
 
-const loadDomosFromServer=()=>{
-    sendAjax('GET', '/getDomos', null, (data)=>{
+const loadSlimesFromServer=()=>{
+    sendAjax('GET', '/getSlimes', null, (data)=>{
         ReactDOM.render(
-            <DomoList domos={data.domos} />, document.querySelector("#domos")
+            <SlimeList slimes={data.slimes} />, document.querySelector("#slimes")
         );
     });
 };
 
 const setup=function(csrf){
     ReactDOM.render(
-        <DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
+        <SlimeForm csrf={csrf} />, document.querySelector("#makeSlime")
     );
     
     ReactDOM.render(
-        <UpdateForm csrf={csrf} />, document.querySelector("#updateDomo")
+        <UpdateForm csrf={csrf} />, document.querySelector("#updateSlime")
     );
     
     ReactDOM.render(
-        <DomoList domos={[]} />, document.querySelector("#domos")
+        <SlimeList slimes={[]} />, document.querySelector("#slimes")
     );
     
-    loadDomosFromServer();
+    loadSlimesFromServer();
 };
 
 const getToken=()=>{

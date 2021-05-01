@@ -1,203 +1,260 @@
 "use strict";
 
-var handleDomo = function handleDomo(e) {
+var handleSlime = function handleSlime(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#slimeMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoLevel").val() == '') {
-    handleError("RAWR! All fields are required!");
+  if ($("#slimeName").val() == '' || $("#slimeResidue").val() == '') {
+    handleError("All fields are required!");
     return false;
   }
 
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-    loadDomosFromServer();
+  sendAjax('POST', $("#slimeForm").attr("action"), $("#slimeForm").serialize(), function () {
+    loadSlimesFromServer();
+    loadPlayerStats();
   });
   return false;
 };
 
-var handleUpdate = function handleUpdate(e) {
+// var handleUpdate = function handleUpdate(e) {
+//   e.preventDefault();
+//   $("#slimeMessage").animate({
+//     width: 'hide'
+//   }, 350);
+
+//   if ($("#updateName").val() == '') {
+//     handleError("Name is required!");
+//     return false;
+//   }
+
+//   sendAjax('POST', $("#updateForm").attr("action"), $("#updateForm").serialize(), function () {
+//     loadSlimesFromServer();
+//   });
+//   return false;
+// };
+
+// var handleUpdate2 = function handleUpdate2(e) {
+//   e.preventDefault();
+//   $("#slimeMessage").animate({
+//     width: 'hide'
+//   }, 350);
+
+//   if ($("#updateName1").val() == '' || $("#updateName2").val() == '') {
+//     handleError("Both names are required!");
+//     return false;
+//   }
+
+//   sendAjax('POST', $("#updateForm2").attr("action"), $("#updateForm2").serialize(), function () {
+//     loadSlimesFromServer();
+//   });
+//   return false;
+// };
+
+var addPlayerSlimeResidue = function addPlayerSlimeResidue(e){
   e.preventDefault();
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
-
-  if ($("#updateName").val() == '') {
-    handleError("RAWR! Name is required!");
-    return false;
-  }
-
-  sendAjax('POST', $("#updateForm").attr("action"), $("#updateForm").serialize(), function () {
-    loadDomosFromServer();
+  sendAjax('POST', $("#playerControlsForm").attr("action"), $("#playerControlsForm").serialize(), function () {
+    loadPlayerStats();
   });
   return false;
-};
+}
 
-var handleUpdate2 = function handleUpdate2(e) {
-  e.preventDefault();
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
+var PlayerStats = function PlayerStats(props){
+  let player = props.player
 
-  if ($("#updateName1").val() == '' || $("#updateName2").val() == '') {
-    handleError("RAWR! Both names are required!");
-    return false;
-  }
+  return /*#__PURE__*/React.createElement("div",{
+    id: "playerStats"
+  }, /*#__PURE__*/React.createElement("h3",{
+    id: "playerGold"  
+  }, "Gold: ", player.gold, " "), /*#__PURE__*/React.createElement("h3",{
+    id: "playerResidue"  
+  }, "Slime Residue: ", player.slimeResidue, " "))
+}
 
-  sendAjax('POST', $("#updateForm2").attr("action"), $("#updateForm2").serialize(), function () {
-    loadDomosFromServer();
-  });
-  return false;
-};
-
-var DomoForm = function DomoForm(props) {
+var SlimeForm = function SlimeForm(props) {
   return /*#__PURE__*/React.createElement("form", {
-    id: "domoForm",
-    name: "domoForm",
-    onSubmit: handleDomo,
+    id: "slimeForm",
+    name: "slimeForm",
+    onSubmit: handleSlime,
     action: "/maker",
     method: "POST",
-    className: "domoForm"
+    className: "slimeForm"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "name"
   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoName",
+    id: "slimeName",
     type: "text",
     name: "name",
-    placeholder: "Domo Name"
+    placeholder: "New Slime Name Here"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "age"
   }, "Age: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoAge",
-    type: "text",
-    name: "age",
-    placeholder: "Domo Age"
+    id: "slimeResidue",
+    type: "number",
+    name: "residue",
+    placeholder: "Amount Residue To Use"
   }), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "makeDomoSubmit",
+    className: "makeSlimeSubmit",
     type: "submit",
-    value: "Make Domo"
+    value: "Make Slime"
   }));
 };
 
-var UpdateForm = function UpdateForm(props) {
+// var UpdateForm = function UpdateForm(props) {
+//   return /*#__PURE__*/React.createElement("form", {
+//     id: "updateForm",
+//     name: "updateForm",
+//     onSubmit: handleUpdate,
+//     action: "/update",
+//     method: "POST",
+//     className: "updateForm"
+//   }, /*#__PURE__*/React.createElement("label", {
+//     htmlFor: "name"
+//   }, "Name: "), /*#__PURE__*/React.createElement("input", {
+//     id: "updateName",
+//     type: "text",
+//     name: "name",
+//     placeholder: "Slime Name"
+//   }), /*#__PURE__*/React.createElement("input", {
+//     type: "hidden",
+//     name: "_csrf",
+//     value: props.csrf
+//   }), /*#__PURE__*/React.createElement("input", {
+//     className: "updateSlimeSubmit",
+//     type: "submit",
+//     value: "Level Slime Up!"
+//   }));
+// };
+
+// var UpdateForm2 = function UpdateForm2(props) {
+//   return /*#__PURE__*/React.createElement("form", {
+//     id: "updateForm2",
+//     name: "updateForm2",
+//     onSubmit: handleUpdate2,
+//     action: "/update2",
+//     method: "POST",
+//     className: "updateForm"
+//   }, /*#__PURE__*/React.createElement("label", {
+//     htmlFor: "name"
+//   }, "Name: "), /*#__PURE__*/React.createElement("input", {
+//     id: "updateName1",
+//     type: "text",
+//     name: "name1",
+//     placeholder: "Slime 1 Name"
+//   }), /*#__PURE__*/React.createElement("label", {
+//     htmlFor: "name"
+//   }, "Name: "), /*#__PURE__*/React.createElement("input", {
+//     id: "updateName2",
+//     type: "text",
+//     name: "name2",
+//     placeholder: "Slime 2 Name"
+//   }), /*#__PURE__*/React.createElement("input", {
+//     type: "hidden",
+//     name: "_csrf",
+//     value: props.csrf
+//   }), /*#__PURE__*/React.createElement("input", {
+//     className: "updateSlimeSubmit",
+//     type: "submit",
+//     value: "Make Slimes Play Together"
+//   }));
+// };
+
+var PlayerControls = function PlayerControls(props) {
   return /*#__PURE__*/React.createElement("form", {
-    id: "updateForm",
-    name: "updateForm",
-    onSubmit: handleUpdate,
-    action: "/update",
+    id: "playerControlsForm",
+    name: "playerControlsForm",
+    onSubmit: addPlayerSlimeResidue,
+    action: "/addResidue",
     method: "POST",
-    className: "updateForm"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "name"
-  }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "updateName",
-    type: "text",
-    name: "name",
-    placeholder: "Domo Name"
-  }), /*#__PURE__*/React.createElement("input", {
+    className: "playerControlsForm"
+  }, /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "updateDomoSubmit",
+    onSubmit: addPlayerSlimeResidue,
     type: "submit",
-    value: "Level Domo Up!"
-  }));
-};
+    value: "Click here to get more slime residue!"
+  }))
+}
 
-var UpdateForm2 = function UpdateForm2(props) {
-  return /*#__PURE__*/React.createElement("form", {
-    id: "updateForm2",
-    name: "updateForm2",
-    onSubmit: handleUpdate2,
-    action: "/update2",
-    method: "POST",
-    className: "updateForm"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "name"
-  }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "updateName1",
-    type: "text",
-    name: "name1",
-    placeholder: "Domo 1 Name"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "name"
-  }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "updateName2",
-    type: "text",
-    name: "name2",
-    placeholder: "Domo 2 Name"
-  }), /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "_csrf",
-    value: props.csrf
-  }), /*#__PURE__*/React.createElement("input", {
-    className: "updateDomoSubmit",
-    type: "submit",
-    value: "Make Domos Play Together"
-  }));
-};
-
-var DomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+var SlimeList = function SlimeList(props) {
+  if (props.slimes.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "domoList"
+      className: "slimeList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyDomo"
-    }, "No Domos Yet"));
+      className: "emptySlime"
+    }, "No Slimes Yet"));
   }
 
-  var domoNodes = props.domos.map(function (domo) {
+  var slimeNodes = props.slimes.map(function (slime) {
     return /*#__PURE__*/React.createElement("div", {
-      key: domo._id,
-      className: "domo"
+      key: slime._id,
+      className: "slime"
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
+      src: "/assets/img/slimeface.jpeg",
+      alt: "slime face",
+      className: "slimeFace"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "domoName"
-    }, " Name: ", domo.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoAge"
-    }, " Age: ", domo.age, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoLevel"
-    }, " Level: ", domo.level, " "));
+      className: "slimeName"
+    }, " Name: ", slime.name, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "slimeAge"
+    }, " Level: ", slime.level, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "slimeHealth"
+    }, " Health: ", slime.health, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "domoList"
-  }, domoNodes);
+    className: "slimeList"
+  }, slimeNodes);
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
-  sendAjax('GET', '/getDomos', null, function (data) {
-    ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-      domos: data.domos
-    }), document.querySelector("#domos"));
+var loadSlimesFromServer = function loadSlimesFromServer() {
+  sendAjax('GET', '/getSlimes', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(SlimeList, {
+      slimes: data.slimes
+    }), document.querySelector("#slimes"));
   });
 };
 
+var loadPlayerStats = function loadPlayerStats(){
+  sendAjax('GET', '/getPlayer', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(PlayerStats, {
+      player: data.player
+    }), document.querySelector("#playerStats"));
+  });
+}
+
 var setup = function setup(csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(SlimeForm, {
     csrf: csrf
-  }), document.querySelector("#makeDomo"));
+  }), document.querySelector("#makeSlime"));
 
-  ReactDOM.render( /*#__PURE__*/React.createElement(UpdateForm, {
-    csrf: csrf
-  }), document.querySelector("#updateDomo"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(PlayerStats, {
+    player: {}
+  }), document.querySelector("#playerStats"));
+
+  // ReactDOM.render( /*#__PURE__*/React.createElement(UpdateForm, {
+  //   csrf: csrf
+  // }), document.querySelector("#updateSlime"));
   
-  ReactDOM.render( /*#__PURE__*/React.createElement(UpdateForm2, {
-    csrf: csrf
-  }), document.querySelector("#updateDomo2"));
+  // ReactDOM.render( /*#__PURE__*/React.createElement(UpdateForm2, {
+  //   csrf: csrf
+  // }), document.querySelector("#updateSlime2"));
 
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-    domos: []
-  }), document.querySelector("#domos"));
-  loadDomosFromServer();
+  ReactDOM.render( /*#__PURE__*/React.createElement(PlayerControls, {
+    csrf: csrf
+  }), document.querySelector("#playerControls"));
+
+  ReactDOM.render( /*#__PURE__*/React.createElement(SlimeList, {
+    slimes: []
+  }), document.querySelector("#slimes"));
+  loadSlimesFromServer();
+  loadPlayerStats();
 };
 
 var getToken = function getToken() {
@@ -213,13 +270,13 @@ $(document).ready(function () {
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#slimeMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({
+  $("#slimeMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;

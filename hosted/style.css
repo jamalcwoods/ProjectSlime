@@ -3,6 +3,7 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
+    background-color: #E6E6E6;
     overflow-x: hidden;
 }
 
@@ -17,7 +18,7 @@ html, body {
 nav {
     width: 100%;
     height: 50px;
-    background-color: #55acee;
+    background-color: #39393A;
 }
 
 nav:nth-child(1) {
@@ -28,76 +29,76 @@ nav:nth-child(1) {
     padding: 5px;
     padding-top: 12px;
     padding-left: 20px;
-    color: white;
+    color: #E6E6E6;
     font-size: 1.3em;
     float: left;
 }
 
 .navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active {
-    color: white;
+    color: #E6E6E6;
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #39393A;
     transition: background-color 0.4s ease;
 }
 
 .navlink a:hover {
     transition: background-color 0.8s ease;
-    background-color: #66bdff;
+    background-color: #02CA2D;
 }
 
-.domoForm {
-    border: 2px solid #338acc;
+.slimeForm {
+    border: 2px solid #02F236;
     height: 35px;
     width: 1000px;
     margin-top:0px;
     margin-bottom: 0px;
     padding-top:10px;
-    background-color: #55acee;
+    background-color: #39393A;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
 }
 
-.domoForm label {
+.slimeForm label {
     display: inline-block;
     width: 75px;
     margin-left: 10px;
     font-size: 1.2em;
     float: left;
-    color: white;
+    color: #E6E6E6;
 }
 
-.domoForm input[type=text] {
+.slimeForm input[type=text] {
     float:left;
 }
 
-.makeDomoSubmit {
+.makeSlimeSubmit {
     transition: background-color 0.4s ease;
     display: inline;
     width: 90px;
-    background-color: #55acee;
+    background-color: #39393A;
     border-radius: 2px;
-    color: white;
+    color: #E6E6E6;
     text-decoration: none;
 }
 
-.makeDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
-    color: white;
+.makeSlimeSubmit:link, .makeSlimeSubmit:visited, .makeSlimeSubmit:hover, .makeSlimeSubmit:active {
+    color: #E6E6E6;
 }
 
-.makeDomoSubmit:hover {
+.makeSlimeSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #02F236;
 }
 
 .updateForm {
-    border: 2px solid #338acc;
+    border: 2px solid #02F236;
     height: 35px;
     width: 500px;
    
     padding-top:10px;
-    background-color: #55acee;
+    background-color: #39393A;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
 }
@@ -108,30 +109,30 @@ nav:nth-child(1) {
     margin-left: 10px;
     font-size: 1.2em;
     float: left;
-    color: white;
+    color: #E6E6E6;
 }
 
 .updateForm input[type=text] {
     float:left;
 }
 
-.updateDomoSubmit {
+.updateSlimeSubmit {
     transition: background-color 0.4s ease;
     display: inline;
     width: 180px;
-    background-color: #55acee;
+    background-color: #39393A;
     border-radius: 2px;
-    color: white;
+    color: #E6E6E6;
     text-decoration: none;
 }
 
-.updateDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
-    color: white;
+.updateSlimeSubmit:link, .makeSlimeSubmit:visited, .makeSlimeSubmit:hover, .makeSlimeSubmit:active {
+    color: #E6E6E6;
 }
 
-.updateDomoSubmit:hover {
+.updateSlimeSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #02F236;
 }
 
 .mainForm {
@@ -162,21 +163,21 @@ nav:nth-child(1) {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #55acee;
+    background-color: #39393A;
     border-radius: 2px;
-    border-color: #66acee;
+    border-color: #02CA2D;
     padding: 3px 0px;
-    color: white;
+    color: #E6E6E6;
     text-decoration: none;
 }
 
 .formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
-    color: white;
+    color: #E6E6E6;
 }
 
 .formSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #02F236;
 }
 
 #user, #pass, #pass2 {
@@ -188,10 +189,10 @@ nav:nth-child(1) {
 
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
+    box-shadow: 0px 0px 1px 1px #39393A;
 }
 
-#domoMessage {
+#slimeMessage {
     display:none;
     top: 250px;
     width: 250px;
@@ -202,7 +203,7 @@ nav:nth-child(1) {
     overflow: hidden;
 }
 
-#domoMessage h3 {
+#slimeMessage h3 {
     width: 200px;
     position: absolute;
     top: 0px;
@@ -222,7 +223,7 @@ nav:nth-child(1) {
     font-style: italic;
 }
 
-#domo {
+#slime {
     z-index: 225;
     margin-top: -20px;
     margin-left: 135px;
@@ -233,36 +234,64 @@ nav:nth-child(1) {
     transform: rotate(330deg);
 }
 
-#domos {
+#playerControls {
     width: 40%;
     min-width: 400px;
-    border: 2px solid #55acee;
+    border: 2px solid #39393A;
+    border-radius: 4px;
+    margin: 0 auto;
+    margin-top: 100px;
+    height: 30%;
+}
+
+#playerControls input{
+    display: inline;
+    width: 100%;
+    height: 100%;
+    color: black;
+    font-size: 100%;
+    box-shadow: 0 9px #999;
+}
+
+#playerControls input:hover {
+    background-color: #02CA2D;
+}
+
+#playerControls input:active {
+    box-shadow: 0 5px #666;
+    background-color: #35FD60;
+}
+
+#slimes {
+    width: 40%;
+    min-width: 400px;
+    border: 2px solid #39393A;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
 }
 
-.domo {
+.slime {
     width: 95%;
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #55acee;
+    border: 2px solid #39393A;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #39393A;
     padding: 10px;
     min-height:60px;
     overflow: hidden;
 }
 
-.domo:hover {
+.slime:hover {
     transition: border-color 0.2s ease-out;
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
-    background-color: #66bfff;
+    background-color: #3CFD67;
 }
 
-img.domoFace {
+img.slimeFace {
     margin-left: 25px;
     margin-right: 10px;
     height: 50px;
@@ -272,7 +301,7 @@ img.domoFace {
     float:left;
 }
 
-h3.emptyDomo {
+h3.emptySlime {
     width: 400px;
     font-size: 1.5em;
     margin: 0 auto;
@@ -280,7 +309,7 @@ h3.emptyDomo {
     margin-top: 18px;
 }
 
-h3.domoName {
+h3.slimeName {
     float:left;
     width: 200px;
     font-weight: bold;
@@ -288,7 +317,7 @@ h3.domoName {
     font-size: 1.5em;
 }
 
-h3.domoAge {
+h3.slimeAge {
     float:left;
     text-align: left;
     width: 100px;
@@ -297,7 +326,7 @@ h3.domoAge {
     font-size: 1.5em;
 }
 
-h3.domoLevel {
+h3.slimeLevel {
     float:left;
     text-align: left;
     width: 100px;
@@ -306,10 +335,19 @@ h3.domoLevel {
     font-size: 1.5em;
 }
 
-.domo:first-child {
+h3.slimeHealth {
+    float:left;
+    text-align: left;
+    width: 100px;
+    font-weight: bold;
+    padding-right: 10px;
+    font-size: 1.5em;
+}
+
+.slime:first-child {
     margin-top: 10px;
 }
 
-.domo:last-child {
+.slime:last-child {
     margin-bottom:10px;
 }
