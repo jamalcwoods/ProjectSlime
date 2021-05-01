@@ -44,8 +44,8 @@ const EnemyStats=(props)=>{
     return (
         <div id="enemyStats">
             <h3 id="enemyName">Name: {enemy.name}</h3>
-            <h3 id="enemyAttack">Name: {enemy.attack}</h3>
-            <h3 id="enemyHealth">Name: {enemy.health}/{enemy.max_health}</h3>
+            <h3 id="enemyAttack">Attack: {enemy.attack}</h3>
+            <h3 id="enemyHealth">Health: {enemy.health}/{enemy.max_health}</h3>
         </div>
     )
 }
@@ -80,7 +80,7 @@ const SlimeForm=(props)=>{
     );
 };
 
-const PlayerConrols=(props)=>{
+const PlayerControls=(props)=>{
     return(
         <div className="playerControls">
             <form id="summonEnemyForm"
