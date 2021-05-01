@@ -1,4 +1,4 @@
-const { request, response } = require('express');
+
 const models = require('../models')
 
 const Account = models.Account;
@@ -136,8 +136,6 @@ const summonEnemy = (request, response) => {
     let min = Math.floor((1 + parseInt(req.body.wager)) * 0.5)
     let max = Math.ceil((1 + parseInt(req.body.wager)) * 1.5)
     let strength = Math.floor(Math.random() * (max - min) + min)
-    
-    console.log(strength)
     
     if(strength <= 0){
       strength = 1
