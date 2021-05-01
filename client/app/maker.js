@@ -74,7 +74,7 @@ const SlimeForm=(props)=>{
             <input id="slimeName" type="text" name="name" placeholder="New Slime Name Here"/>
             <label htmlFor="name">Amount Residue To Use: </label>
             <input id="slimeResidue" type="number" name="residue" placeholder="Amount Residue To Use"/>
-            
+            <input type="hidden" name="_csrf" value={props.csrf}></input>
             <input className="makeSlimeSubmit" type="submit" value="Make Slime" />
         </form>
     );
@@ -90,8 +90,8 @@ const PlayerControls=(props)=>{
                 method="POST"
                 className="summonEnemyForm"
             >
-                <input type="hidden" name="_csrf" value={props.csrf}/>
-                <input name="wager" type="number" value="0" placeholder="Amount Gold To Wager"></input>
+                <input type="hidden" name="_csrf" value={props.csrf}></input>
+                <input name="wager" type="number" value='0' placeholder="Amount Gold To Wager"></input>
                 <input type="submit">Wager Gold To Summon an Enemy!</input>
             </form>
             <form id="addResidueForm"
@@ -101,7 +101,7 @@ const PlayerControls=(props)=>{
                 method="POST"
                 className="addResidueForm"
             >
-                <input type="hidden" name="_csrf" value={props.csrf}/>
+                <input type="hidden" name="_csrf" value={props.csrf}></input>
                 <input type="submit">Click Here To Get More Slime Residue!</input>
             </form>
         </div>
