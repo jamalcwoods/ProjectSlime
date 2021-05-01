@@ -163,7 +163,7 @@ var loadEnemyStats = function loadEnemyStats(){
 const setup=function(csrf){
 
     ReactDOM.render(
-        <EnemyStats enemy={{}} />, document.querySelector("enemyStats")
+        <EnemyStats enemy={{}} />, document.querySelector("#enemyStats")
     );
 
     ReactDOM.render(
@@ -171,11 +171,11 @@ const setup=function(csrf){
     );
     
     ReactDOM.render(
-        <PlayerStats player={{}} />, document.querySelector("playerStats")
+        <PlayerStats player={{}} />, document.querySelector("#playerStats")
     );
 
     ReactDOM.render(
-        <PlayerControls csrf={csrf} />, document.querySelector("playerControls")
+        <PlayerControls csrf={csrf} />, document.querySelector("#playerControls")
     );
     
     ReactDOM.render(
