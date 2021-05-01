@@ -26,7 +26,7 @@ const makeSlime = (req, res) => {
       return res.status(400).json({ error: 'Must give at least 2 residue to create a slime' });
     }
 
-    const rngNum = Math.ceil(Math.random() * req.body.residue / 2);
+    const rngNum = Math.ceil(Math.random() * (req.body.residue / 2));
 
     const slimeData = {
       name: req.body.name,
@@ -44,9 +44,9 @@ const makeSlime = (req, res) => {
 
     slimePromise.then(() => res.json({ redirect: '/maker' }));
 
-    slimePromise.catch((err) => {
-      console.log(err);
-      if (err.code === 11000) {
+    slimePromise.catch((err2) => {
+      console.log(err2);
+      if (err2.code === 11000) {
         return res.status(400).json({ error: 'Slime already exists.' });
       }
 
@@ -58,6 +58,7 @@ const makeSlime = (req, res) => {
 
     return slimePromise;
   });
+  return false;
 };
 
 const updateSlime = (req, res) => {

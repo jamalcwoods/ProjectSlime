@@ -105,14 +105,18 @@ const getPlayer = (request, response) => {
   const req = request;
   const res = response;
 
-  Account.AccountModel.findByUsername(req.session.account.username, (err, acc) => res.json({ player: acc }));
+  Account.AccountModel.findByUsername(req.session.account.username, (err, acc) => res.json(
+    { player: acc },
+  ));
 };
 
 const getEnemy = (request, response) => {
   const req = request;
   const res = response;
 
-  Account.AccountModel.findByUsername(req.session.account.username, (err, acc) => res.json({ enemy: acc.currentEnemy }));
+  Account.AccountModel.findByUsername(req.session.account.username, (err, acc) => res.json(
+    { enemy: acc.currentEnemy },
+  ));
 };
 
 const summonEnemy = (request, response) => {
@@ -126,8 +130,8 @@ const summonEnemy = (request, response) => {
     }
 
     const enemyType = Math.floor(Math.random() * 3);
-    const min = Math.floor((1 + parseInt(req.body.wager)) * 0.5);
-    const max = Math.ceil((1 + parseInt(req.body.wager)) * 1.5);
+    const min = Math.floor((1 + parseInt(req.body.wager, 10)) * 0.5);
+    const max = Math.ceil((1 + parseInt(req.body.wager, 10)) * 1.5);
     let strength = Math.floor(Math.random() * (max - min) + min);
 
     if (strength <= 0) {
