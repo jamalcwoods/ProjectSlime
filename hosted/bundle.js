@@ -119,9 +119,8 @@ var PlayerControls = function PlayerControls(props) {
     value: 0,
     placeholder: "Amount Gold To Wager"
   }), /*#__PURE__*/React.createElement("input", {
-    onSubmit: addPlayerSlimeResidue,
     type: "submit",
-    value: "Wager Gold To Summon an enemy!"
+    value: "Wager Gold To Summon an Enemy!"
   })),/*#__PURE__*/React.createElement("form", {
     id: "addResidueForm",
     name: "addResidueForm",
@@ -134,7 +133,6 @@ var PlayerControls = function PlayerControls(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    onSubmit: addPlayerSlimeResidue,
     type: "submit",
     value: "Click here to get more slime residue!"
   })))

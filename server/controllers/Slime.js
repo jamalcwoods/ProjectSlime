@@ -16,17 +16,17 @@ const makeSlime = (req, res) => {
   if (!req.body.name || !req.body.residue) {
     return res.status(400).json({ error: 'Name and Residue amount are required' });
   }
-  Account.AccountModel.findByUsername(req.session.account.username,(err,acc) => {
-    const account = acc
-    if(account.slimeResidue < req.body.residue){
+  Account.AccountModel.findByUsername(req.session.account.username, (err, acc) => {
+    const account = acc;
+    if (account.slimeResidue < req.body.residue) {
       return res.status(400).json({ error: 'Not enough residue to create this slime' });
     }
 
-    if(req.body.residue < 2){
+    if (req.body.residue < 2) {
       return res.status(400).json({ error: 'Must give at least 2 residue to create a slime' });
     }
 
-    let rngNum = Math.ceil(Math.random() * req.body.residue/2)
+    const rngNum = Math.ceil(Math.random() * req.body.residue / 2);
 
     const slimeData = {
       name: req.body.name,
@@ -37,31 +37,28 @@ const makeSlime = (req, res) => {
       perk: 0,
       owner: req.session.account._id,
     };
-  
+
     const newSlime = new Slime.SlimeModel(slimeData);
-  
+
     const slimePromise = newSlime.save();
-  
+
     slimePromise.then(() => res.json({ redirect: '/maker' }));
-  
+
     slimePromise.catch((err) => {
       console.log(err);
       if (err.code === 11000) {
         return res.status(400).json({ error: 'Slime already exists.' });
       }
-  
+
       return res.status(400).json({ error: 'An error occured.' });
     });
 
-    
     account.slimeResidue -= req.body.residue;
     account.save();
 
     return slimePromise;
-  })
+  });
 };
-
-
 
 const updateSlime = (req, res) => {
   if (!req.body.name) {
@@ -98,11 +95,11 @@ const updateSlime2 = (req, res) => {
     if (err) { return res.status(500).json({ err }); }
     if (!doc) { return res.json({ warning: 'Slime 1 not found!' }); }
     const tempSlime1 = doc;
-    let slime1Age = tempSlime1.age
+    const slime1Age = tempSlime1.age;
     tempSlime1.age++;
 
-    const slimePromise1 = tempSlime1.save()
-    
+    const slimePromise1 = tempSlime1.save();
+
     Slime.SlimeModel.findByName(req.session.account._id, req.body.name2, (err2, doc2) => {
       if (err2) { return res.status(500).json({ err2 }); }
       if (!doc2) { return res.json({ warning: 'Slime 2 not found!' }); }
@@ -119,7 +116,7 @@ const updateSlime2 = (req, res) => {
       });
 
       return slimePromise2;
-    })
+    });
     return slimePromise1;
   });
 

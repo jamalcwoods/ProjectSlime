@@ -6,17 +6,15 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
-const session = require('express-session')
-const RedisStore = require('connect-redis')(session)
-const url = require('url')
-const redis = require('redis')
-const csrf = require('csurf')
-
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+const url = require('url');
+const redis = require('redis');
+const csrf = require('csurf');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/SlimeProject';
-
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -33,21 +31,21 @@ mongoose.connect(dbURL, mongooseOptions, (err) => {
 
 let redisURL = {
   hostname: 'redis-15221.c246.us-east-1-4.ec2.cloud.redislabs.com',
-  port: '15221'
-}
+  port: '15221',
+};
 
-let redisPASS = 'lbNBf984EpDtO0RHPwvUshXRTZayLcXV'
+let redisPASS = 'lbNBf984EpDtO0RHPwvUshXRTZayLcXV';
 
-if(process.env.REDISCLOUD_URL){
+if (process.env.REDISCLOUD_URL) {
   redisURL = url.parse(process.env.REDISCLOUD_URL);
-  [, redisPASS] = redisURL.auth.split(':')
+  [, redisPASS] = redisURL.auth.split(':');
 }
 
-let redisClient = redis.createClient({
+const redisClient = redis.createClient({
   host: redisURL.hostname,
   port: redisURL.port,
-  password: redisPASS
-})
+  password: redisPASS,
+});
 
 const router = require('./router.js');
 
@@ -68,21 +66,21 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
-  }
+  },
 }));
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
-app.disable('x-powered-by')
+app.disable('x-powered-by');
 app.use(cookieParser());
 
 app.use(csrf());
 app.use((err, req, res, next) => {
-  if(err.code !== 'EBADCSRFTOKEN') return next(err);
-  
-  console.log('Missing CSRF token')
+  if (err.code !== 'EBADCSRFTOKEN') return next(err);
+
+  console.log('Missing CSRF token');
   return false;
-})
+});
 
 router(app);
 

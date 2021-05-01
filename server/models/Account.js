@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-//const { resolveSoa } = require('dns');
+// const { resolveSoa } = require('dns');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -39,8 +39,8 @@ const AccountSchema = new mongoose.Schema({
   },
   currentEnemy: {
     type: Object,
-    required: false
-  }
+    required: false,
+  },
 });
 
 AccountSchema.statics.toAPI = (doc) => ({

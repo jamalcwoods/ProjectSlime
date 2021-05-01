@@ -34,7 +34,7 @@ const SlimeSchema = new mongoose.Schema({
     required: true,
   },
 
-  attack:{
+  attack: {
     type: Number,
     min: 1,
     required: true,
@@ -64,7 +64,7 @@ SlimeSchema.statics.toAPI = (doc) => ({
   perk: doc.perk,
   health: doc.health,
   max_health: doc.max_health,
-  attack: doc.attack
+  attack: doc.attack,
 });
 
 SlimeSchema.statics.findByOwner = (ownerId, callback) => {
