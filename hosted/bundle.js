@@ -99,65 +99,6 @@ var SlimeForm = function SlimeForm(props) {
   }));
 };
 
-// var UpdateForm = function UpdateForm(props) {
-//   return /*#__PURE__*/React.createElement("form", {
-//     id: "updateForm",
-//     name: "updateForm",
-//     onSubmit: handleUpdate,
-//     action: "/update",
-//     method: "POST",
-//     className: "updateForm"
-//   }, /*#__PURE__*/React.createElement("label", {
-//     htmlFor: "name"
-//   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-//     id: "updateName",
-//     type: "text",
-//     name: "name",
-//     placeholder: "Slime Name"
-//   }), /*#__PURE__*/React.createElement("input", {
-//     type: "hidden",
-//     name: "_csrf",
-//     value: props.csrf
-//   }), /*#__PURE__*/React.createElement("input", {
-//     className: "updateSlimeSubmit",
-//     type: "submit",
-//     value: "Level Slime Up!"
-//   }));
-// };
-
-// var UpdateForm2 = function UpdateForm2(props) {
-//   return /*#__PURE__*/React.createElement("form", {
-//     id: "updateForm2",
-//     name: "updateForm2",
-//     onSubmit: handleUpdate2,
-//     action: "/update2",
-//     method: "POST",
-//     className: "updateForm"
-//   }, /*#__PURE__*/React.createElement("label", {
-//     htmlFor: "name"
-//   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-//     id: "updateName1",
-//     type: "text",
-//     name: "name1",
-//     placeholder: "Slime 1 Name"
-//   }), /*#__PURE__*/React.createElement("label", {
-//     htmlFor: "name"
-//   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-//     id: "updateName2",
-//     type: "text",
-//     name: "name2",
-//     placeholder: "Slime 2 Name"
-//   }), /*#__PURE__*/React.createElement("input", {
-//     type: "hidden",
-//     name: "_csrf",
-//     value: props.csrf
-//   }), /*#__PURE__*/React.createElement("input", {
-//     className: "updateSlimeSubmit",
-//     type: "submit",
-//     value: "Make Slimes Play Together"
-//   }));
-// };
-
 var PlayerControls = function PlayerControls(props) {
   return/*#__PURE__*/React.createElement("div", {
     className: "playerControls"
@@ -266,14 +207,6 @@ var setup = function setup(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PlayerStats, {
     player: {}
   }), document.querySelector("#playerStats"));
-
-  // ReactDOM.render( /*#__PURE__*/React.createElement(UpdateForm, {
-  //   csrf: csrf
-  // }), document.querySelector("#updateSlime"));
-  
-  // ReactDOM.render( /*#__PURE__*/React.createElement(UpdateForm2, {
-  //   csrf: csrf
-  // }), document.querySelector("#updateSlime2"));
 
   ReactDOM.render( /*#__PURE__*/React.createElement(PlayerControls, {
     csrf: csrf
