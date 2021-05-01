@@ -92,7 +92,7 @@ const PlayerControls=(props)=>{
             >
                 <input type="hidden" name="_csrf" value={props.csrf}></input>
                 <input name="wager" type="number" defaultValue='0' placeholder="Amount Gold To Wager"></input>
-                <input type="submit">Wager Gold To Summon an Enemy!</input>
+                <input type="submit" value="Wager Gold To Summon an Enemy!"></input>
             </form>
             <form id="addResidueForm"
                 name="addResidueForm"
@@ -102,7 +102,7 @@ const PlayerControls=(props)=>{
                 className="addResidueForm"
             >
                 <input type="hidden" name="_csrf" value={props.csrf}></input>
-                <input type="submit">Click Here To Get More Slime Residue!</input>
+                <input type="submit" value="Click Here To Get More Slime Residue!"></input>
             </form>
         </div>
     )
