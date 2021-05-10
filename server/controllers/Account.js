@@ -239,6 +239,19 @@ const combatEnemy = (request, response) => {
   return false;
 };
 
+const addGold = (request, response) => {
+  const req = request;
+  const res = response;
+
+  Account.AccountModel.findByUsername(req.session.account.username, (err, acc) => {
+    const account = acc;
+    account.gold += 50;
+
+    account.save();
+    return res.json({ enemy: acc.currentEnemy });
+  })
+}
+
 const summonEnemy = (request, response) => {
   const req = request;
   const res = response;
@@ -288,3 +301,4 @@ module.exports.getPlayer = getPlayer;
 module.exports.getEnemy = getEnemy;
 module.exports.summonEnemy = summonEnemy;
 module.exports.combatEnemy = combatEnemy;
+module.exports.addGold = addGold;

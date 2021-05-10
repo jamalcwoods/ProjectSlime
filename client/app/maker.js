@@ -15,6 +15,13 @@ const handleSlime=(e)=>{
     return false;
 };
 
+var addGold = function addGold(e){
+    e.preventDefault()
+    sendAjax('POST', $(e.target).attr("action"), $("#addResidueForm").serialize(), function () {
+      loadPlayerStats();
+    });
+  }
+
 var addPerk = function addPerk(e){
     e.preventDefault()
     sendAjax('POST', $(e.target).attr("action"), $(e.target).serialize() + "&" + $("#addResidueForm").serialize(), function () {
@@ -104,6 +111,15 @@ const PlayerStats=(props)=>{
         <div id="playerStats">
             <h3 id="playerGold">Gold: {player.gold}</h3>
             <h3 id="playerResidue">Slime Residue: {player.slimeResidue}</h3>
+            <form id="addGold"  
+            name="addGold"
+            onSubmit={addGold}
+            action="/addGold"
+            method="POST"
+            className="addGold"
+        >
+            <input type="submit" value="Spend real money to buy gold!"></input>
+        </form>
         </div>
     )
 }

@@ -18,6 +18,13 @@ var handleSlime = function handleSlime(e) {
   return false;
 };
 
+var addGold = function addGold(e){
+  e.preventDefault()
+  sendAjax('POST', $(e.target).attr("action"), $("#addResidueForm").serialize(), function () {
+    loadPlayerStats();
+  });
+}
+
 var addPerk = function addPerk(e){
   e.preventDefault()
   sendAjax('POST', $(e.target).attr("action"), $(e.target).serialize() + "&" + $("#addResidueForm").serialize(), function () {
@@ -114,7 +121,17 @@ var PlayerStats = function PlayerStats(props){
     id: "playerGold"  
   }, "Gold: ", player.gold, " "), /*#__PURE__*/React.createElement("h3",{
     id: "playerResidue"  
-  }, "Slime Residue: ", player.slimeResidue, " "))
+  }, "Slime Residue: ", player.slimeResidue, " "),/*#__PURE__*/React.createElement("form", {
+    id: "addGold",
+    name: "addGold",
+    onSubmit: addGold,
+    action: "/addGold",
+    method: "POST",
+    className: "addGold"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "submit",
+    value: "Spend real money to buy gold!"
+  })))
 }
 
 var SlimeForm = function SlimeForm(props) {

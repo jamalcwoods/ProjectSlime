@@ -16,6 +16,7 @@ const router = (app) => {
   app.post('/summonEnemy', mid.requiresLogin, controllers.Account.summonEnemy);
   app.post('/attackEnemy', mid.requiresLogin, controllers.Account.combatEnemy);
   app.post('/addPerk', mid.requiresLogin, controllers.Slime.addPerk);
+  app.post('/addGold', mid.requiresLogin, controllers.Account.addGold);
   app.get('/', mid.requiesSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
