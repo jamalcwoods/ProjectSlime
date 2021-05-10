@@ -40,6 +40,12 @@ const SlimeSchema = new mongoose.Schema({
     required: true,
   },
 
+  exp:{
+    type: Number,
+    min: 0,
+    required: true,
+  },
+
   perk: {
     type: Number,
     min: 0,
@@ -65,6 +71,7 @@ SlimeSchema.statics.toAPI = (doc) => ({
   health: doc.health,
   max_health: doc.max_health,
   attack: doc.attack,
+  exp: doc.exp
 });
 
 SlimeSchema.statics.findByOwner = (ownerId, callback) => {
@@ -72,13 +79,21 @@ SlimeSchema.statics.findByOwner = (ownerId, callback) => {
     owner: convertId(ownerId),
   };
 
-  return SlimeModel.find(search).select('name level health max_health attack').lean().exec(callback);
+  return SlimeModel.find(search).select('name level health max_health attack exp perk').lean().exec(callback);
 };
 
 SlimeSchema.statics.findByName = (ownerId, name, callback) => {
   const search = {
     owner: convertId(ownerId),
     name,
+  };
+
+  return SlimeModel.findOne(search, callback);
+};
+
+SlimeSchema.statics.findById = (id, callback) => {
+  const search = {
+    _id: convertId(id)
   };
 
   return SlimeModel.findOne(search, callback);

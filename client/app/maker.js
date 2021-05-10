@@ -14,6 +14,23 @@ const handleSlime=(e)=>{
     
     return false;
 };
+
+var addPerk = function addPerk(e){
+    e.preventDefault()
+    sendAjax('POST', $(e.target).attr("action"), $(e.target).serialize() + "&" + $("#addResidueForm").serialize(), function () {
+      loadSlimesFromServer();
+      loadPlayerStats();
+    });
+  } 
+
+var attackEnemy = function attackEnemy(e){
+    e.preventDefault()
+    sendAjax('POST', $(e.target).attr("action"), $(e.target).serialize() + "&" + $("#addResidueForm").serialize(), function () {
+      loadEnemyStats();
+      loadSlimesFromServer();
+      loadPlayerStats();
+    });
+  }
     
 var addPlayerSlimeResidue=(e)=>{
     e.preventDefault();
@@ -27,9 +44,34 @@ var summonEnemy =(e)=>{
     e.preventDefault();
     sendAjax('POST', $("#summonEnemyForm").attr("action"), $("#summonEnemyForm").serialize(), function () {
         loadEnemyStats();
+    loadPlayerStats();
     });
     return false;
 }
+
+var getPerkMap = function getPerkMap(type){
+    switch(type){
+      case 0:
+        return[
+          "This slime has no special perk",
+          "This slime will deal damage before recieving damage. If it kills it will remain unharmed",
+          "This Slime gains more attack when ever it attacks",
+          "This Slime deals double damage but takes 25% of their base attack as damage",
+          "This slime does half damage but adds slime residue whenever it attacks"
+        ]
+        break;
+      case 1:
+        return[
+          "This enemy has no special perk",
+          "This enemy will lower a slimes attack after combat",
+          "This enemy executes slimes under 25% of their maximum health",
+          "This enemy heals to full when it kills a slime",
+          "This enemy increases it's attack every time it fights"
+        ]
+        break;
+    }
+    
+  }
 
 const EnemyStats=(props)=>{
     let enemy = props.enemy
@@ -41,11 +83,17 @@ const EnemyStats=(props)=>{
         )
     }
 
+    let srcString = "/assets/img/perks/enemy/" + enemy.perk + ".png"
+    let title = getPerkMap(1)[enemy.perk]
+
     return (
         <div id="enemyStats">
             <h3 id="enemyName">Name: {enemy.name}</h3>
             <h3 id="enemyAttack">Attack: {enemy.attack}</h3>
             <h3 id="enemyHealth">Health: {enemy.health}/{enemy.max_health}</h3>
+            <h3 id="enemyReward">Gold Reward: {Math.round(((enemy.max_health + enemy.attack) * 1.5)/3)}</h3>
+            <h3 id="enemyRewardEXP">Exp Reward: {Math.ceil((enemy.max_health + enemy.attack) * 1.5)}</h3>
+            <img class="enemyperkimage" src={srcString} title={title}></img>
         </div>
     )
 }
@@ -117,7 +165,12 @@ const SlimeList=(props)=>{
         );
     }
     
+    
+
     const slimeNodes=props.slimes.map(function(slime){
+        let srcString = "/assets/img/perks/slime/" + slime.perk + ".png"
+        let title = getPerkMap(0)[slime.perk]
+
         return (
         <div key={slime._id} className="slime">
             <img src="/assets/img/slimeface.jpeg" alt="slime face" className="slimeFace" />
@@ -125,6 +178,28 @@ const SlimeList=(props)=>{
             <h3 className="slimeLevel"> Level: {slime.level} </h3>
             <h3 className="slimeHealth"> Health: {slime.health}/{slime.max_health} </h3>
             <h3 className="slimeAttack"> Attack: {slime.attack} </h3>
+            <h3 className="slimeExp"> Exp: {slime.exp}/{slime.level * 10}</h3>
+            <form id="attackEnemyForm"  
+                name="attackEnemyForm"
+                onSubmit={attackEnemy}
+                action="/attackEnemy"
+                method="POST"
+                className="attackEnemyForm"
+            >
+                <input type="hidden" name="id" value={slime["_id"]}></input>
+                <input type="submit" value="Attack the enemy with this slime!"></input>
+            </form>
+            <form id="addPerkForm"  
+                name="addPerkForm"
+                onSubmit={addPerk}
+                action="/addPerk"
+                method="POST"
+                className="addPerkForm"
+            >
+                <input type="hidden" name="id" value={slime["_id"]}></input>
+                <input type="submit" value="Add a random perk to this slime! (20 Gold)!"></input>
+            </form>
+            <img className="perkimage" src={srcString} title={title}></img>
         </div>
         );
     });

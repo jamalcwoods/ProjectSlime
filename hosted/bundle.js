@@ -18,6 +18,23 @@ var handleSlime = function handleSlime(e) {
   return false;
 };
 
+var addPerk = function addPerk(e){
+  e.preventDefault()
+  sendAjax('POST', $(e.target).attr("action"), $(e.target).serialize() + "&" + $("#addResidueForm").serialize(), function () {
+    loadSlimesFromServer();
+    loadPlayerStats();
+  });
+} 
+
+var attackEnemy = function attackEnemy(e){
+  e.preventDefault()
+  sendAjax('POST', $(e.target).attr("action"), $(e.target).serialize() + "&" + $("#addResidueForm").serialize(), function () {
+    loadEnemyStats();
+    loadSlimesFromServer();
+    loadPlayerStats();
+  });
+}
+
 var addPlayerSlimeResidue = function addPlayerSlimeResidue(e){
   e.preventDefault();
   sendAjax('POST', $("#addResidueForm").attr("action"), $("#addResidueForm").serialize(), function () {
@@ -30,19 +47,45 @@ var summonEnemy = function summonEnemy(e){
   e.preventDefault();
   sendAjax('POST', $("#summonEnemyForm").attr("action"), $("#summonEnemyForm").serialize(), function () {
     loadEnemyStats();
+    loadPlayerStats();
   });
   return false;
 }
 
+var getPerkMap = function getPerkMap(type){
+  switch(type){
+    case 0:
+      return[
+        "This slime has no special perk",
+        "This slime will deal damage before recieving damage. If it kills it will remain unharmed",
+        "This Slime gains more attack when ever it attacks",
+        "This Slime deals double damage but takes 25% of their base attack as damage",
+        "This slime does half damage but adds slime residue whenever it attacks"
+      ]
+      break;
+    case 1:
+      return[
+        "This enemy has no special perk",
+        "This enemy will lower a slimes attack after combat",
+        "This enemy executes slimes under 25% of their maximum health",
+        "This enemy heals to full when it kills a slime",
+        "This enemy increases it's attack every time it fights"
+      ]
+      break;
+  }
+  
+}
+
 var EnemyStats = function EnemyStats(props){
   let enemy = props.enemy
-  if (enemy == null) {
+  if (enemy == null || !enemy.name) {
     return /*#__PURE__*/React.createElement("div", {
       className: "enemyStats"
     }, /*#__PURE__*/React.createElement("h3", {
       className: "emptyEnemy"
     }, "No Enemy Challenged"));
   }
+
 
   return /*#__PURE__*/React.createElement("div",{
     id: "enemyStats"
@@ -52,7 +95,15 @@ var EnemyStats = function EnemyStats(props){
     id: "enemyAttack"  
   }, "Enemy Attack: ", enemy.attack, " "), /*#__PURE__*/React.createElement("h3",{
     id: "enemyHealth"  
-  }, "Enemy Health: ", enemy.health, "/", enemy.max_health))
+  }, "Enemy Health: ", enemy.health, "/", enemy.max_health), /*#__PURE__*/React.createElement("h3",{
+    id: "enemyReward"  
+  }, "Gold Reward: ", Math.round(((enemy.max_health + enemy.attack) * 1.5)/3)), /*#__PURE__*/React.createElement("h3",{
+    id: "enemyRewardEXP"  
+  }, "Exp Reward: ", Math.ceil((enemy.max_health + enemy.attack) * 1.5)), /*#__PURE__*/React.createElement("img", {
+    className: "enemyperkimage",
+    src: "/assets/img/perks/enemy/" + enemy.perk + ".png",
+    title: getPerkMap(1)[enemy.perk]
+  }))
 }
 
 var PlayerStats = function PlayerStats(props){
@@ -116,7 +167,7 @@ var PlayerControls = function PlayerControls(props) {
   }), /*#__PURE__*/React.createElement("input", {
     name: "wager",
     type: "number",
-    value: 0,
+    defaultValue: 0,
     placeholder: "Amount Gold To Wager"
   }), /*#__PURE__*/React.createElement("input", {
     type: "submit",
@@ -163,7 +214,41 @@ var SlimeList = function SlimeList(props) {
       className: "slimeHealth"
     }, " Health: ", slime.health, "/", slime.max_health), /*#__PURE__*/React.createElement("h3", {
       className: "slimeAttack"
-    }, " Attack: ", slime.attack, " "));
+    }, " Attack: ", slime.attack), /*#__PURE__*/React.createElement("h3", {
+      className: "slimeExp"
+    }, " Exp: ", slime.exp,"/",slime.level * 10),/*#__PURE__*/React.createElement("form", {
+      id: "attackEnemyForm",
+      name: "attackEnemyForm",
+      onSubmit: attackEnemy,
+      action: "/attackEnemy",
+      method: "POST",
+      className: "attackEnemyForm"
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "hidden",
+      name: "id",
+      value: slime["_id"]
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "submit",
+      value: "Attack the enemy with this slime!"
+    })),/*#__PURE__*/React.createElement("form", {
+      id: "addPerkForm",
+      name: "addPerkForm",
+      onSubmit: addPerk,
+      action: "/addPerk",
+      method: "POST",
+      className: "addPerkForm"
+    }, /*#__PURE__*/React.createElement("input", {
+      type: "hidden",
+      name: "id",
+      value: slime["_id"]
+    }), /*#__PURE__*/React.createElement("input", {
+      type: "submit",
+      value: "Add a random perk to this slime! (20 Gold)"
+    })), /*#__PURE__*/React.createElement("img", {
+      className: "perkimage",
+      src: "/assets/img/perks/slime/" + slime.perk + ".png",
+      title: getPerkMap(0)[slime.perk]
+    }));
   });
   return /*#__PURE__*/React.createElement("div", {
     className: "slimeList"

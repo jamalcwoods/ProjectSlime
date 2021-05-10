@@ -14,8 +14,8 @@ const router = (app) => {
   app.get('/getPlayer', mid.requiresLogin, controllers.Account.getPlayer);
   app.post('/addResidue', mid.requiresLogin, controllers.Account.addResidue);
   app.post('/summonEnemy', mid.requiresLogin, controllers.Account.summonEnemy);
-  app.post('/update', mid.requiresLogin, controllers.Slime.update);
-  app.post('/update2', mid.requiresLogin, controllers.Slime.update2);
+  app.post('/attackEnemy', mid.requiresLogin, controllers.Account.combatEnemy);
+  app.post('/addPerk', mid.requiresLogin, controllers.Slime.addPerk);
   app.get('/', mid.requiesSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

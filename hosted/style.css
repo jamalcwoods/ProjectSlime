@@ -48,6 +48,16 @@ nav:nth-child(1) {
     background-color: #02CA2D;
 }
 
+.perkimage{
+    width: 20%;
+    height: 10%;
+}
+
+.enemyperkimage{
+    width: 30%;
+    height: 10%;
+}
+
 .slimeForm {
     border: 2px solid #02F236;
     height: 5%;
