@@ -169,7 +169,7 @@ const combatEnemy = (request, response) => {
       }
 
       if (account.currentEnemy.perk === 1) {
-        slime.attack -= Math.ceil(slime.attack * 0.2);
+        slime.attack -= Math.ceil(slime.attack * 0.25);
         if (slime.attack < 1) {
           slime.attack = 0;
         }
@@ -210,13 +210,13 @@ const combatEnemy = (request, response) => {
 
         account.gold += Math.round(value / 3);
         slime.exp += Math.ceil(value);
-        while (slime.level * 10 < slime.exp) {
+        while (slime.level * 10 <= slime.exp) {
           slime.exp -= slime.level * 10;
           slime.level++;
           slime.attack = Math.ceil(slime.attack * (1.1 + (Math.random() * 0.15)));
           const healthval = (1.1 + (Math.random() * 0.15));
           slime.max_health = Math.ceil(slime.max_health * healthval);
-          slime.health = slime.max_health;
+          slime.health += Math.ceil(slime.max_health * 0.1);
         }
         account.currentEnemy = null;
       }
