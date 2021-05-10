@@ -154,6 +154,7 @@ const combatEnemy = (request, response) => {
           break;
         case 2:
           account.currentEnemy.health -= slime.attack;
+          slime.attack = Math.ceil(slime.attack * 1.05)
           break;
         case 3:
           account.currentEnemy.health -= slime.attack * 2;
@@ -249,8 +250,8 @@ const addGold = (request, response) => {
 
     account.save();
     return res.json({ enemy: acc.currentEnemy });
-  })
-}
+  });
+};
 
 const summonEnemy = (request, response) => {
   const req = request;
