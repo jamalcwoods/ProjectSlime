@@ -40,7 +40,7 @@ const SlimeSchema = new mongoose.Schema({
     required: true,
   },
 
-  exp:{
+  exp: {
     type: Number,
     min: 0,
     required: true,
@@ -71,7 +71,7 @@ SlimeSchema.statics.toAPI = (doc) => ({
   health: doc.health,
   max_health: doc.max_health,
   attack: doc.attack,
-  exp: doc.exp
+  exp: doc.exp,
 });
 
 SlimeSchema.statics.findByOwner = (ownerId, callback) => {
@@ -93,7 +93,7 @@ SlimeSchema.statics.findByName = (ownerId, name, callback) => {
 
 SlimeSchema.statics.findById = (id, callback) => {
   const search = {
-    _id: convertId(id)
+    _id: convertId(id),
   };
 
   return SlimeModel.findOne(search, callback);

@@ -123,29 +123,29 @@ const combatEnemy = (request, response) => {
   const req = request;
   const res = response;
 
-  Slime.SlimeModel.findById(req.body.id, (err, doc) => {  
+  Slime.SlimeModel.findById(req.body.id, (err, doc) => {
     if (err) { return res.status(500).json({ err }); }
     if (!doc) { return res.json({ warning: 'Slime not found!' }); }
-    const slime = doc
+    const slime = doc;
     Account.AccountModel.findByUsername(req.session.account.username, (err1, acc) => {
       const account = acc;
       if (!account.currentEnemy) {
         return res.status(400).json({ error: 'No Enemy To Fight!' });
       }
-      //SLIME PERK KEY
+      // SLIME PERK KEY
 
-      //1 - Unit deals damage before taking damage 
-      //2 - Unit increases attack when it attacks and survives
-      //3 - Unit deals double damage but takes recoil
-      //4 - Unit less damage but adds residue whenever it attacks 
+      // 1 - Unit deals damage before taking damage
+      // 2 - Unit increases attack when it attacks and survives
+      // 3 - Unit deals double damage but takes recoil
+      // 4 - Unit less damage but adds residue whenever it attacks
 
-      //ENEMY PERK KEY
-      //1 - Lowers a slimes attack after combat, even if it dies
-      //2 - Damage to slimes under 25% of their health instantly kills them
-      //3 - Heals to full when it kills a slime
-      //4 - Increases it's attack every time it fights
-      
-      switch(slime.perk){
+      // ENEMY PERK KEY
+      // 1 - Lowers a slimes attack after combat, even if it dies
+      // 2 - Damage to slimes under 25% of their health instantly kills them
+      // 3 - Heals to full when it kills a slime
+      // 4 - Increases it's attack every time it fights
+
+      switch (slime.perk) {
         case 0:
           account.currentEnemy.health -= slime.attack;
           break;
@@ -160,20 +160,23 @@ const combatEnemy = (request, response) => {
           slime.health -= Math.round(slime.attack * 0.25);
           break;
         case 4:
-          account.currentEnemy.health -= Math.ceil(slime.attack/2);
-          account.slimeResidue += Math.ceil(slime.max_health/4) * 5;
+          account.currentEnemy.health -= Math.ceil(slime.attack / 2);
+          account.slimeResidue += Math.ceil(slime.max_health / 4) * 5;
+          break;
+
+        default:
           break;
       }
-      
-      if(account.currentEnemy.perk == 1){
+
+      if (account.currentEnemy.perk === 1) {
         slime.attack -= Math.ceil(slime.attack * 0.2);
-        if(slime.attack < 1){
-          slime.attack = 0
+        if (slime.attack < 1) {
+          slime.attack = 0;
         }
       }
 
-      if((slime.perk == 1 && account.currentEnemy.health > 0) || slime.perk != 1){
-        switch(account.currentEnemy.perk){
+      if ((slime.perk === 1 && account.currentEnemy.health > 0) || slime.perk !== 1) {
+        switch (account.currentEnemy.perk) {
           case 0:
             slime.health -= account.currentEnemy.attack;
             break;
@@ -181,55 +184,60 @@ const combatEnemy = (request, response) => {
             slime.health -= account.currentEnemy.attack;
             break;
           case 2:
-            if(slime.health <= slime.max_health * 0.25){
-              slime.health = 0
+            if (slime.health <= slime.max_health * 0.25) {
+              slime.health = 0;
             }
             break;
           case 3:
             slime.health -= account.currentEnemy.attack;
-            if(slime.health <= 0){
-              account.currentEnemy.health = account.currentEnemy.max_health
+            if (slime.health <= 0) {
+              account.currentEnemy.health = account.currentEnemy.max_health;
             }
             break;
           case 4:
             slime.health -= account.currentEnemy.attack;
             account.currentEnemy.attack += Math.ceil(account.currentEnemy.attack * 0.1);
             break;
+          default:
+            break;
         }
       }
 
-      if(account.currentEnemy.health <= 0){
-        let value = Math.round((account.currentEnemy.max_health + account.currentEnemy.attack) * 1.5)
-        account.gold += Math.round(value/3)
-        slime.exp += Math.ceil(value)
-        while(slime.level * 10 < slime.exp){
+      if (account.currentEnemy.health <= 0) {
+        const value = Math.round(
+          (account.currentEnemy.max_health + account.currentEnemy.attack) * 1.5,
+        );
+
+        account.gold += Math.round(value / 3);
+        slime.exp += Math.ceil(value);
+        while (slime.level * 10 < slime.exp) {
           slime.exp -= slime.level * 10;
-          slime.level++
-          slime.attack = Math.ceil(slime.attack * (1.1 + (Math.random() * 0.15)))
-          let healthval = (1.1 + (Math.random() * 0.15))
-          slime.max_health = Math.ceil(slime.max_health * healthval)
-          slime.health = slime.max_health
+          slime.level++;
+          slime.attack = Math.ceil(slime.attack * (1.1 + (Math.random() * 0.15)));
+          const healthval = (1.1 + (Math.random() * 0.15));
+          slime.max_health = Math.ceil(slime.max_health * healthval);
+          slime.health = slime.max_health;
         }
         account.currentEnemy = null;
       }
 
-      
-      if(slime.health <= 0){
-        slime.remove()
-        let value = Math.round((slime.max_health + slime.attack) * 2)
-        account.slimeResidue += value
+      if (slime.health <= 0) {
+        slime.remove();
+        const value = Math.round((slime.max_health + slime.attack) * 2);
+        account.slimeResidue += value;
       } else {
-        slime.save()
+        slime.save();
       }
       account.markModified('currentEnemy');
-      account.save()
+      account.save();
 
       return res.json({ player: account });
     });
+    return false;
   });
 
   return false;
- };
+};
 
 const summonEnemy = (request, response) => {
   const req = request;
@@ -259,7 +267,7 @@ const summonEnemy = (request, response) => {
       max_health: [1, 2, 4][enemyType] * strength,
       name: 'Wayward Wanderer',
       attack: [4, 2, 1][enemyType] * strength,
-      perk: Math.floor(Math.random() * 5)
+      perk: Math.floor(Math.random() * 5),
     };
 
     account.gold -= req.body.wager;

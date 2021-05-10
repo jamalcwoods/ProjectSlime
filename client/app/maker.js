@@ -93,7 +93,7 @@ const EnemyStats=(props)=>{
             <h3 id="enemyHealth">Health: {enemy.health}/{enemy.max_health}</h3>
             <h3 id="enemyReward">Gold Reward: {Math.round(((enemy.max_health + enemy.attack) * 1.5)/3)}</h3>
             <h3 id="enemyRewardEXP">Exp Reward: {Math.ceil((enemy.max_health + enemy.attack) * 1.5)}</h3>
-            <img class="enemyperkimage" src={srcString} title={title}></img>
+            <img className="enemyperkimage" src={srcString} title={title}></img>
         </div>
     )
 }

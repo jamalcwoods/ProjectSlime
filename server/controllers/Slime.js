@@ -36,7 +36,7 @@ const makeSlime = (req, res) => {
       level: 1,
       perk: 0,
       owner: req.session.account._id,
-      exp:0
+      exp: 0,
     };
 
     const newSlime = new Slime.SlimeModel(slimeData);
@@ -62,7 +62,6 @@ const makeSlime = (req, res) => {
   return false;
 };
 
-
 const getSlimes = (request, response) => {
   const req = request;
   const res = response;
@@ -76,7 +75,7 @@ const getSlimes = (request, response) => {
   });
 };
 
-const addPerk = (request,response) => {
+const addPerk = (request, response) => {
   const req = request;
   const res = response;
 
@@ -88,16 +87,17 @@ const addPerk = (request,response) => {
     Slime.SlimeModel.findById(req.body.id, (err, doc) => {
       const slime = doc;
       slime.perk = Math.ceil(Math.random() * 4);
-    
-      account.gold -= 20
 
-      account.save()
+      account.gold -= 20;
+
+      account.save();
       slime.save();
 
-      return res.json({ slime: slime });
-    })
-  })
-}
+      return res.json({ slime });
+    });
+    return false;
+  });
+};
 
 module.exports.makerPage = makerPage;
 module.exports.getSlimes = getSlimes;
